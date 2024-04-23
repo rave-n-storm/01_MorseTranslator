@@ -42,39 +42,53 @@ def text_to_morse():
     # input text to translate
     text_to_translate = input("Message to translate to Morse: \n").lower()
 
-    # switch letters one-by-one into a list
-    translated_morse_as_list = [morse_code[letter] for letter in text_to_translate]
+    try:
+        # switch letters one-by-one into a list
+        translated_morse_as_list = [morse_code[letter] for letter in text_to_translate]
 
-    # join list into string
-    translated_as_morse = " ".join(translated_morse_as_list)
+    except KeyError:
+        # catch KeyError on invalid character
+        print("Invalid character in text, please try again.")
+        text_to_morse()
 
-    # print string then ask to continue
-    print(f"Your message in Morse: \n{translated_as_morse}\n")
-    ask_to_continue()
+    else:
+        # join list into string
+        translated_as_morse = " ".join(translated_morse_as_list)
+
+        # print string then ask to continue
+        print(f"Your message in Morse: \n{translated_as_morse}\n")
+        ask_to_continue()
 
 
 # Morse-to-text translator function
 def morse_to_text():
     """Translates Morse code to text."""
     # input Morse code to translate
-    morse_to_translate = input("Morse code to translate: \n")
+    morse_to_translate = input("Morse code to translate (use '-' and '.'): \n")
 
     # make a list of every Morse character of the input
     morse_list_to_translate = list(morse_to_translate.split(" "))
 
-    # switch characters one-by-one into a list
-    translated_text_as_list = []
-    for char in morse_list_to_translate:
-        for letter, morse in morse_code.items():
-            if morse == char:
-                translated_text_as_list.append(letter)
+    try:
+        # switch characters one-by-one into a list
+        translated_text_as_list = []
+        for char in morse_list_to_translate:
+            for letter, morse in morse_code.items():
+                if morse == char:
+                    translated_text_as_list.append(letter)
 
-    # join list into string
-    translated_as_text = "".join(translated_text_as_list)
+    # catch KeyError on invalid character
+    except KeyError:
+        print("Invalid character in Morse code, please try again.")
+        morse_to_text()
 
-    # print string then ask to continue
-    print(f"Your code as text: \n{translated_as_text}\n")
-    ask_to_continue()
+    else:
+        # join list into string
+        translated_as_text = "".join(translated_text_as_list)
+
+        # print string then ask to continue
+        print(f"Your code as text: \n{translated_as_text}\n")
+        ask_to_continue()
 
 
 def ask_to_continue():
